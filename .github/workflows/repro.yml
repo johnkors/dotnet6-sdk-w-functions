@@ -25,3 +25,12 @@ jobs:
           include-prerelease: true
     - run: dotnet --info
     - run: dotnet build SomeFunction
+    - run: |
+        brew tap azure/functions
+        brew install azure-functions-core-tools@3
+      if: ${{ matrix.os == 'macos-latest' }}
+    - run: sudo apt-get install azure-functions-core-tools-3
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+    - run: Install-Binary -Url "https://go.microsoft.com/fwlink/?linkid=2135274" -Name "func-cli-x64.msi"
+      if: ${{ matrix.os == 'windows-latest' }}
+    - run: .\func --version
