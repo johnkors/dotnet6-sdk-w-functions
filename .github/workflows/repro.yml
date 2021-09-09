@@ -1,0 +1,27 @@
+name: Repro
+
+on:
+  push:
+    branches:
+      - "**"
+      - "master"
+
+jobs:
+  reprojob:
+    name: build-on-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-11, windows-latest, ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-dotnet@v1
+      with:
+          dotnet-version: "3.1.x"
+    - uses: actions/setup-dotnet@v1
+      with:
+          dotnet-version: "6.0.x"
+          include-prerelease: true
+    - run: dotnet --info
+    - run: dotnet build SomeFunction
