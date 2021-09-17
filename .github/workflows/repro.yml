@@ -21,7 +21,14 @@ jobs:
           dotnet-version: "3.1.x"
     - uses: actions/setup-dotnet@v1
       with:
+          dotnet-version: "5.0.x"
+    - uses: actions/setup-dotnet@v1
+      with:
           dotnet-version: "6.0.x"
           include-prerelease: true
     - run: dotnet --info
+    - run:  ls -al /Users/runner/.dotnet/sdk/
+      if: ${{ matrix.os == 'macos-11' }}
+    - run: strings /Users/runner/.dotnet/dotnet | grep "@(#)"
+      if: ${{ matrix.os == 'macos-11' }}
     - run: dotnet build SomeFunction
